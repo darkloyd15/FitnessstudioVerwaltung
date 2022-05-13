@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Abschlussprojekt_Fitnessstudio.Views.AddCustomerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Abschlussprojekt_Fitnessstudio.Views"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Name: "/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Vorname: "/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Straße: "/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Hausnummer: "/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="PLZ: "/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Ort: "/>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Abo: "/>
+
+            <TextBox Grid.Row="0" Grid.Column="1" Text="Bsp. Text"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="Bsp. Text"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="Bsp. Text"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="Bsp. Text"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="Bsp. Text"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Text="Bsp. Text"/>
+            <ComboBox Grid.Row="6" Grid.Column="2" Margin="5"></ComboBox>
+                    
+        </Grid>
+
+                <StackPanel Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="10">
+            <ItemsControl x:Name="Items">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Remove"
+                                cal:Message.Attach="Remove($dataContext)" />
+                            <TextBlock Text="{Binding Id}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+
+        <Button Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Hinzufügen" MinHeight="20" MinWidth="100" Margin="20 0"/>
+        <Button Grid.Column="3" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Zurück" MinHeight="20" MinWidth="100" Margin="30 0"/>
+
+
+
+    </Grid>
+</UserControl>
