@@ -13,7 +13,7 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
         }
 
         public int TrainingPlanId { get; set; }
-        public string Anmerkung { get; set; }
+        public string Comment { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
     }

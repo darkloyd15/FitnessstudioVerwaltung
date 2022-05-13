@@ -31,8 +31,8 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Abschlussprojekt_Fitnessstudio;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=.\\;Initial Catalog=Abschlussprojekt_Fitnessstudio;Integrated Security=True;");
             }
         }
 
@@ -54,8 +54,6 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("Customer");
-
-                entity.Property(e => e.Id).HasMaxLength(128);
 
                 entity.Property(e => e.Emailaddress).HasMaxLength(256);
 
@@ -80,8 +78,6 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
 
                 entity.ToTable("CustomerAddress");
 
-                entity.Property(e => e.CustomerId).HasMaxLength(128);
-
                 entity.HasOne(d => d.Address)
                     .WithMany()
                     .HasForeignKey(d => d.AddressId)
@@ -97,9 +93,7 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
             {
                 entity.ToTable("Employee");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(128)
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Emailaddress).HasMaxLength(256);
 
@@ -108,8 +102,9 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
                 entity.Property(e => e.Password)
+                    .IsRequired()
                     .HasMaxLength(256)
-                    .HasComment("");
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.AddressNavigation)
                     .WithMany(p => p.Employees)
@@ -122,10 +117,6 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
                 entity.HasNoKey();
 
                 entity.ToTable("Schedule");
-
-                entity.Property(e => e.CustomerId).HasMaxLength(128);
-
-                entity.Property(e => e.EmployeeId).HasMaxLength(128);
 
                 entity.HasOne(d => d.Customer)
                     .WithMany()
@@ -173,10 +164,7 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
             {
                 entity.ToTable("TrainingPlan");
 
-                entity.Property(e => e.Anmerkung)
-                    .HasMaxLength(200)
-                    .IsFixedLength(true)
-                    .HasComment("");
+                entity.Property(e => e.Comment).HasMaxLength(250);
             });
 
             OnModelCreatingPartial(modelBuilder);
