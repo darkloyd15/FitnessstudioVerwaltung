@@ -7,6 +7,12 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
 {
     public partial class Customer
     {
+        public Customer()
+        {
+            CustomerAddresses = new HashSet<CustomerAddress>();
+            Schedules = new HashSet<Schedule>();
+        }
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,5 +25,7 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
 
         public virtual Subscription SubscriptionNavigation { get; set; }
         public virtual TrainingPlan TrainingPlan { get; set; }
+        public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

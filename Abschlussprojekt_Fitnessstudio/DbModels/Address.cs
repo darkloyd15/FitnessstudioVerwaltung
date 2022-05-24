@@ -9,6 +9,7 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
     {
         public Address()
         {
+            CustomerAddresses = new HashSet<CustomerAddress>();
             Employees = new HashSet<Employee>();
         }
 
@@ -18,6 +19,7 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
         public int? Zipcode { get; set; }
         public string StreetNumber { get; set; }
 
+        public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
     }
 }

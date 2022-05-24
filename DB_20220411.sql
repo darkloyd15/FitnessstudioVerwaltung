@@ -115,14 +115,26 @@ References Subscription(Id)
 );
 Go
 
-CREATE Table CustomerAddress(
-AddressId int,
-CustomerId int,
-CONSTRAINT fk_AdressId FOREIGN KEY (AddressId)
-References Address(Id),
-CONSTRAINT fk_CustomerId FOREIGN KEY (CustomerId)
-References Customer(Id)
-);
+
+CREATE TABLE "CustomerAddress" (
+	"AddressId" INT NOT NULL AUTO_INCREMENT,
+	"CustomerId" INT NOT NULL AUTO_INCREMENT,
+	FOREIGN KEY INDEX "fk_AdressId" ("AddressId"),
+	FOREIGN KEY INDEX "fk_CustomerId" ("CustomerId"),
+	PRIMARY KEY ("AddressId", "CustomerId"),
+	CONSTRAINT "fk_AdressId" FOREIGN KEY ("AddressId") REFERENCES "Address" ("Id") ON UPDATE NO_ACTION ON DELETE NO_ACTION,
+	CONSTRAINT "fk_CustomerId" FOREIGN KEY ("CustomerId") REFERENCES "Customer" ("Id") ON UPDATE NO_ACTION ON DELETE NO_ACTION
+)
+;
+
+--CREATE Table CustomerAddress(
+--AddressId int,
+--CustomerId int,
+--CONSTRAINT fk_AdressId FOREIGN KEY (AddressId)
+--References Address(Id),
+--CONSTRAINT fk_CustomerId FOREIGN KEY (CustomerId)
+--References Customer(Id)
+--);
 GO
 
 

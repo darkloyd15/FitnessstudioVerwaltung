@@ -2,6 +2,7 @@
 using Abschlussprojekt_Fitnessstudio.EventModels;
 using Abschlussprojekt_Fitnessstudio.Models;
 using Caliburn.Micro;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
         {
             _events = events;
             _customer = customer;
-            Content = new BindableCollection<Customer>(ctx.Customers);
+            Content = new BindableCollection<Customer>(ctx.Customers.Include(c => c.SubscriptionNavigation));
         }
 
 
@@ -55,6 +56,10 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
         {
             _customer.CurrentCustomer = SelectedCustomer;
             _events.PublishOnUIThreadAsync(new CustomerViewEvent());
+        }
+        public void AddNew()
+        {           
+            _events.PublishOnUIThreadAsync(new CustomerAddEvent());
         }
 
     }

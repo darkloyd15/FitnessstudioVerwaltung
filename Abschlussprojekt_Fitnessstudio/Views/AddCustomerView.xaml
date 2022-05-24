@@ -20,8 +20,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0 10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -37,19 +39,23 @@
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Name: "/>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Vorname: "/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Straße: "/>
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Hausnummer: "/>
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="PLZ: "/>
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Ort: "/>
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Abo: "/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Birthday: "/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Email: "/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Straße: "/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Hausnummer: "/>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="PLZ: "/>
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Ort: "/>
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Abo: "/>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Text="Bsp. Text"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="Bsp. Text"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="Bsp. Text"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="Bsp. Text"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Text="Bsp. Text"/>
-            <TextBox Grid.Row="5" Grid.Column="1" Text="Bsp. Text"/>
-            <ComboBox Grid.Row="6" Grid.Column="2" Margin="5"></ComboBox>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="Bsp. Text" x:Name="Lastname"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="Bsp. Text" x:Name="Firstname"/>
+            <DatePicker Grid.Row="2" Grid.Column="1" Text="Bsp. Text" x:Name="Birthday"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="Bsp. Text" x:Name="Email"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="Bsp. Text" x:Name="Street"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Text="Bsp. Text" x:Name="Streetnumber"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Text="Bsp. Text" x:Name="Zipcode"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Text="Bsp. Text" x:Name="City"/>
+            <ComboBox Grid.Row="8" Grid.Column="2" Margin="5" x:Name="Abo" IsReadOnly="True" SelectedIndex="{Binding SelectedSubscription}"></ComboBox>
                     
         </Grid>
 
@@ -68,7 +74,7 @@
         </StackPanel>
 
 
-        <Button Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Hinzufügen" MinHeight="20" MinWidth="100" Margin="20 0"/>
+        <Button Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Hinzufügen" MinHeight="20" MinWidth="100" Margin="20 0" x:Name="Add"/>
         <Button Grid.Column="3" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Zurück" MinHeight="20" MinWidth="100" Margin="30 0"/>
 
 

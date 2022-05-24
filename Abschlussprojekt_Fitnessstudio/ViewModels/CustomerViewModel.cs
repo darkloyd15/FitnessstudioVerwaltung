@@ -1,6 +1,8 @@
 ﻿using Abschlussprojekt_Fitnessstudio.DbModels;
+using Abschlussprojekt_Fitnessstudio.EventModels;
 using Abschlussprojekt_Fitnessstudio.Models;
 using Caliburn.Micro;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +24,15 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
             _customer = customer;
             CurrentCustomer = customer.CurrentCustomer;
             SubName = ctx.Subscriptions.FirstOrDefault(x => x.Id.Equals(CurrentCustomer.Subscription)).Name;
-            TrainingPlan = new BindableCollection<TrainingMachinePlan>(ctx.TrainingMachinePlans.Where(x => x.TrainingPlanId.Equals(CurrentCustomer.TrainingPlanId)));
+            TrainingPlan = new BindableCollection<TrainingMachinePlan>(ctx.TrainingMachinePlans.Where(x => x.TrainingPlanId.Equals(CurrentCustomer.TrainingPlanId)).Include(c => c.TraininMachine));
         }
+
+        public void changePlan()
+        {
+            _events.PublishOnUIThreadAsync(new ChangeTrainingPlanEvent());
+        }
+
+
 
         private Customer _currentCustomer;
 

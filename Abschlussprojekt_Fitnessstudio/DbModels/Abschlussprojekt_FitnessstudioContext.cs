@@ -31,8 +31,8 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.\\;Initial Catalog=Abschlussprojekt_Fitnessstudio;Integrated Security=True;");
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=.\\;Initial Catalog=Abschlussprojekt_Fitnessstudio;Integrated Security=True");
             }
         }
 
@@ -74,19 +74,26 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
 
             modelBuilder.Entity<CustomerAddress>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.AddressId, e.CustomerId })
+                    .HasName("PK__Customer__9356CC500F51D7A4");
 
                 entity.ToTable("CustomerAddress");
 
+                entity.Property(e => e.AddressId).HasColumnName("AddressID");
+
+                entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+
                 entity.HasOne(d => d.Address)
-                    .WithMany()
+                    .WithMany(p => p.CustomerAddresses)
                     .HasForeignKey(d => d.AddressId)
-                    .HasConstraintName("fk_AdressId");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_addressId");
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany()
+                    .WithMany(p => p.CustomerAddresses)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("fk_CustomerId");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_customerId");
             });
 
             modelBuilder.Entity<Employee>(entity =>
@@ -114,18 +121,25 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
 
             modelBuilder.Entity<Schedule>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.EmployeeId, e.StartTime })
+                    .HasName("PK__Schedule__BB5DCF9716E84A4A");
 
                 entity.ToTable("Schedule");
 
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+                entity.Property(e => e.EndTime).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Customer)
-                    .WithMany()
+                    .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ScheduleCustomerId");
 
                 entity.HasOne(d => d.Employee)
-                    .WithMany()
+                    .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ScheduleEmployeeId");
             });
 
@@ -145,19 +159,22 @@ namespace Abschlussprojekt_Fitnessstudio.DbModels
 
             modelBuilder.Entity<TrainingMachinePlan>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.TraininMachineId, e.TrainingPlanId })
+                    .HasName("PK__Training__526B3329E466B397");
 
                 entity.ToTable("TrainingMachinePlan");
 
-                entity.HasOne(d => d.TrainingMachine)
-                    .WithMany()
-                    .HasForeignKey(d => d.TrainingMachineId)
-                    .HasConstraintName("fk_TrainingMachineId");
+                entity.HasOne(d => d.TraininMachine)
+                    .WithMany(p => p.TrainingMachinePlans)
+                    .HasForeignKey(d => d.TraininMachineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_trainingMachine");
 
                 entity.HasOne(d => d.TrainingPlan)
-                    .WithMany()
+                    .WithMany(p => p.TrainingMachinePlans)
                     .HasForeignKey(d => d.TrainingPlanId)
-                    .HasConstraintName("fk_TrainingPlanId");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_trainingPlan");
             });
 
             modelBuilder.Entity<TrainingPlan>(entity =>

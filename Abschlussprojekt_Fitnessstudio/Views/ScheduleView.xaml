@@ -19,7 +19,18 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10">
+        <DataGrid Margin="0 5" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="Schedules" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSchedule}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mitarbeiter" Binding="{Binding EmployeeId, Mode=OneWay}" />
+                <DataGridTextColumn Header="Kunde" Binding="{Binding CustomerId, Mode=OneWay}" />
+                <!--<DataGridTextColumn Header="Geburtstag" Binding="{Binding Birthday, Mode=OneWay}" />-->
+                <DataGridTextColumn Header="Startzeit" Binding="{Binding StartTime, Mode=OneWay}" />
+                <DataGridTextColumn Header="Endzeit" Binding="{Binding EndTime, Mode=OneWay}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        
+        <!--<StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10">
             <ItemsControl x:Name="Items">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -34,7 +45,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </StackPanel>
+        </StackPanel>-->
 
         <Button Grid.Column="2" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"  MinHeight="25" MinWidth="100" Content="Zurück"/>
     </Grid>
