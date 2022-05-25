@@ -25,7 +25,9 @@ namespace Abschlussprojekt_Fitnessstudio
             _container.Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
-                .Singleton<ISelectedCustomer,SelectedCustomer>();
+                .Singleton<ISelectedCustomer,SelectedCustomer>()
+                //.Singleton<IAddedTrainingPlanModel,AddedTrainingPlanModel>()
+                .Singleton<IAddedCustomerModel,AddedCustomerModel>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)

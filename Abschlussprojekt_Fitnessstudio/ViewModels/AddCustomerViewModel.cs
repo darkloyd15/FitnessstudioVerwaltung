@@ -1,4 +1,6 @@
 ﻿using Abschlussprojekt_Fitnessstudio.DbModels;
+using Abschlussprojekt_Fitnessstudio.EventModels;
+using Abschlussprojekt_Fitnessstudio.Models;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
@@ -12,22 +14,60 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
     class AddCustomerViewModel : Screen
     {
         private readonly IEventAggregator _events;
+        private readonly IAddedCustomerModel _addedCustomer;
         public Abschlussprojekt_FitnessstudioContext ctx = new();
 
-        public AddCustomerViewModel(IEventAggregator events)
+        public AddCustomerViewModel(IEventAggregator events, IAddedCustomerModel addedCustomer)
         {
             _events = events;
+            _addedCustomer = addedCustomer;
+
             Abo = new();
             ctx.Subscriptions.ToList().ForEach(x => Abo.Add(x.Name));
+            if (_addedCustomer.NewCustomer != null)
+            {
+                _addedCustomer.NewCustomer = _addedCustomer.NewCustomer;
+            }
+            if (_addedCustomer.NewCustomerAddress != null)
+            {
+                _addedCustomer.NewCustomerAddress = _addedCustomer.NewCustomerAddress;
+            }
+            TrainingPlan = new();
+            if (_addedCustomer.TrainingMachinePlan != null)
+            {
+                TrainingPlan = _addedCustomer.TrainingMachinePlan;
+            }
+
+            if (_addedCustomer.NewCustomer.Birthday == null)
+            {
+                _addedCustomer.NewCustomer.Birthday = new DateTime(1999, 01, 01);
+            }
+            if (_addedCustomer.NewCustomer.Subscription == null)
+            {
+                _addedCustomer.NewCustomer.Subscription = 1;
+            }
+
+
+            Firstname = _addedCustomer.NewCustomer.FirstName;
+            Lastname = _addedCustomer.NewCustomer.LastName;
+            Birthday = (DateTime)_addedCustomer.NewCustomer.Birthday;
+            Email = _addedCustomer.NewCustomer.Emailaddress;
+            SelectedSubscription = (int)_addedCustomer.NewCustomer.Subscription - 1;
+
+            City = _addedCustomer.NewCustomerAddress.City;
+            Street = _addedCustomer.NewCustomerAddress.Streetname;
+            Zipcode = _addedCustomer.NewCustomerAddress.Zipcode;
+            Streetnumber = _addedCustomer.NewCustomerAddress.StreetNumber;
+            //TrainingPlan.Refresh();
         }
 
-        private Customer _newCustomer = new();
 
 
-        private CustomerAddress _customerAddress = new();
 
 
-        private Address _newCustomerAddress = new();
+
+
+
 
         private List<string> _abo;
 
@@ -49,47 +89,72 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
             }
         }
 
+        public void GoBack()
+        {
+            _events.PublishOnUIThreadAsync(new BackEventModel());
+        }
+
+        public void AddPlan()
+        {
+            _addedCustomer.NewCustomer.FirstName = Firstname;
+            _addedCustomer.NewCustomer.LastName = Lastname;
+            _addedCustomer.NewCustomer.Createdate = DateTime.Now;
+            _addedCustomer.NewCustomer.Birthday = Birthday;
+            _addedCustomer.NewCustomer.Emailaddress = Email;
+            _addedCustomer.NewCustomer.Subscription = SelectedSubscription + 1;
+
+            _addedCustomer.NewCustomerAddress.City = City;
+            _addedCustomer.NewCustomerAddress.Streetname = Street;
+            _addedCustomer.NewCustomerAddress.Zipcode = Zipcode;
+            _addedCustomer.NewCustomerAddress.StreetNumber = Streetnumber;
+
+            _addedCustomer.NewCustomer = _addedCustomer.NewCustomer;
+            _addedCustomer.NewCustomerAddress = _addedCustomer.NewCustomerAddress;
+
+            _events.PublishOnUIThreadAsync(new AddPlanToNewCustomerEvent());
+        }
 
         public void Add()
         {
-            _newCustomer.FirstName = Firstname;
-            _newCustomer.LastName = Lastname;
-            _newCustomer.Createdate = DateTime.Now;
-            _newCustomer.Birthday = Birthday;
-            _newCustomer.Emailaddress = Email;
-            _newCustomer.Subscription = SelectedSubscription + 1;
+            _addedCustomer.NewCustomer.FirstName = Firstname;
+            _addedCustomer.NewCustomer.LastName = Lastname;
+            _addedCustomer.NewCustomer.Createdate = DateTime.Now;
+            _addedCustomer.NewCustomer.Birthday = Birthday;
+            _addedCustomer.NewCustomer.Emailaddress = Email;
+            _addedCustomer.NewCustomer.Subscription = SelectedSubscription + 1;
 
-            _newCustomerAddress.City = City;
-            _newCustomerAddress.Streetname = Street;
-            _newCustomerAddress.Zipcode = Zipcode;
-            _newCustomerAddress.StreetNumber = Streetnumber;
+            _addedCustomer.NewCustomerAddress.City = City;
+            _addedCustomer.NewCustomerAddress.Streetname = Street;
+            _addedCustomer.NewCustomerAddress.Zipcode = Zipcode;
+            _addedCustomer.NewCustomerAddress.StreetNumber = Streetnumber;
 
 
 
-            int ID;
+            int newAddressId;
 
-            if (!ctx.Addresses.ToList().Exists(x => x.Streetname.Equals(_newCustomerAddress.Streetname) && x.Zipcode.Equals(_newCustomerAddress.Zipcode) && x.StreetNumber.Equals(_newCustomerAddress.StreetNumber)))
+            if (!ctx.Addresses.Any(x => x.Streetname.Equals(_addedCustomer.NewCustomerAddress.Streetname) && x.Zipcode.Equals(_addedCustomer.NewCustomerAddress.Zipcode) && x.StreetNumber.Equals(_addedCustomer.NewCustomerAddress.StreetNumber)))
             {
-                ctx.Addresses.Add(_newCustomerAddress);
+                ctx.Addresses.Add(_addedCustomer.NewCustomerAddress);
                 ctx.SaveChanges();
             }
 
-            ID = ctx.Addresses.FirstOrDefault(x => x.Streetname.Equals(_newCustomerAddress.Streetname) && x.Zipcode.Equals(_newCustomerAddress.Zipcode) && x.StreetNumber.Equals(_newCustomerAddress.StreetNumber)).Id;
+            newAddressId = ctx.Addresses.FirstOrDefault(x => x.Streetname.Equals(_addedCustomer.NewCustomerAddress.Streetname) && x.Zipcode.Equals(_addedCustomer.NewCustomerAddress.Zipcode) && x.StreetNumber.Equals(_addedCustomer.NewCustomerAddress.StreetNumber)).Id;
 
-            ctx.Customers.Add(_newCustomer);
+            ctx.Customers.Add(_addedCustomer.NewCustomer);
             ctx.SaveChanges();
 
-            _customerAddress.AddressId = ID;
-            _customerAddress.CustomerId = ctx.Customers.FirstOrDefault(x => x.Equals(_newCustomer)).Id;
+            _addedCustomer.CustomerAddress.AddressId = newAddressId;
+            _addedCustomer.CustomerAddress.CustomerId = ctx.Customers.FirstOrDefault(x => x.Equals(_addedCustomer.NewCustomer)).Id;
 
-            ctx.CustomerAddresses.Add(_customerAddress);
+            ctx.CustomerAddresses.Add(_addedCustomer.CustomerAddress);
             ctx.SaveChanges();
 
-            ID = 0;
+            newAddressId = 0;
 
-            MessageBox.Show($"Nuter '{Firstname} {Lastname}' wurde erfolgreich angelegt!");
+            MessageBox.Show($"Nutzer '{Firstname} {Lastname}' wurde erfolgreich angelegt!");
 
-
+            _addedCustomer.NewCustomer = new();
+            _addedCustomer.NewCustomerAddress = new();
             //Firstname = string.Empty;
             //Lastname = string.Empty;
 
@@ -101,6 +166,18 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
             //Streetnumber = string.Empty;
             //Zipcode = null;
 
+        }
+
+        private BindableCollection<TrainingMachinePlan> _trainingPlan;
+
+        public BindableCollection<TrainingMachinePlan> TrainingPlan
+        {
+            get { return _trainingPlan; }
+            set
+            {
+                _trainingPlan = value;
+                NotifyOfPropertyChange(() => TrainingPlan);
+            }
         }
 
         private string _streetnumber;

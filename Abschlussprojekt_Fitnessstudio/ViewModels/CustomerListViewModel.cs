@@ -24,8 +24,23 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
             _events = events;
             _customer = customer;
             Content = new BindableCollection<Customer>(ctx.Customers.Include(c => c.SubscriptionNavigation));
+            SelectedCustomer = Content.OrderBy(x => x.Id).First();
         }
 
+        public void Search(string sender)
+        {
+            
+            //WICHTI !!!!!! Var Name ÄNDERN!!!"!!!!!!!!!
+            Customer lookforyou = Content.FirstOrDefault(x => x.FirstName.ToLower().StartsWith(sender.ToLower()));
+
+            if (lookforyou != null)
+            {
+                SelectedCustomer = lookforyou;
+            }
+            
+        }
+
+        
 
         private Customer _selectedCustomer;
 

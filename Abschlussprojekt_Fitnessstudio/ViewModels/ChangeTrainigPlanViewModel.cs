@@ -1,4 +1,5 @@
 ﻿using Abschlussprojekt_Fitnessstudio.DbModels;
+using Abschlussprojekt_Fitnessstudio.EventModels;
 using Abschlussprojekt_Fitnessstudio.Models;
 using Caliburn.Micro;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,13 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
     class ChangeTrainigPlanViewModel : Screen
     {
         private readonly ISelectedCustomer _customer;
+        private readonly IEventAggregator _events;
         public Abschlussprojekt_FitnessstudioContext ctx = new();
 
-        public ChangeTrainigPlanViewModel(ISelectedCustomer customer)
+        public ChangeTrainigPlanViewModel(ISelectedCustomer customer, IEventAggregator events)
         {
             _customer = customer;
+            _events = events;
             TrainingPlan = new BindableCollection<TrainingMachinePlan>(ctx.TrainingMachinePlans.Where(x => x.TrainingPlanId.Equals(customer.CurrentCustomer.TrainingPlanId)).Include(c => c.TraininMachine));
         }
 
@@ -73,6 +76,11 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
         public void ChangePlan()
         {
 
+        }
+
+        public void GoBack()
+        {
+            _events.PublishOnUIThreadAsync(new BackEventModel());
         }
 
         private string _machineName;

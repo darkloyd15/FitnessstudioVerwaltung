@@ -10,6 +10,9 @@
     <Compile Update="Views\AddCustomerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddPlanToNewCustomerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\ChangeTrainigPlanView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +34,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\AddCustomerView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddPlanToNewCustomerView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ChangeTrainigPlanView.xaml">

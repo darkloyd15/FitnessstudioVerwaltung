@@ -1,4 +1,5 @@
 ﻿using Abschlussprojekt_Fitnessstudio.DbModels;
+using Abschlussprojekt_Fitnessstudio.EventModels;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,19 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
     {
         Abschlussprojekt_FitnessstudioContext _ctx = new();
 
-        public ScheduleViewModel()
+        public ScheduleViewModel(IEventAggregator events)
         {
             Schedules = new(_ctx.Schedules);
+            _events = events;
+        }
+
+        public void GoBack()
+        {
+            _events.PublishOnUIThreadAsync(new BackEventModel());
         }
 
         private BindableCollection<Schedule> _schedules;
+        private readonly IEventAggregator _events;
 
         public BindableCollection<Schedule> Schedules
         {

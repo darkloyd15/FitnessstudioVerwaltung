@@ -32,6 +32,11 @@ namespace Abschlussprojekt_Fitnessstudio.ViewModels
             _events.PublishOnUIThreadAsync(new ChangeTrainingPlanEvent());
         }
 
+        public void GoBack()
+        {
+            _events.PublishOnUIThreadAsync(new BackEventModel());
+        }
+
 
 
         private Customer _currentCustomer;

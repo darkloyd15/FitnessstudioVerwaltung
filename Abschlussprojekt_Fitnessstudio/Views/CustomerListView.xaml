@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox MaxHeight="40" VerticalAlignment="Bottom"  Grid.Row="0" Grid.ColumnSpan="3">
+        <TextBox x:Name="SearchBar" MaxHeight="40" VerticalAlignment="Bottom"  Grid.Row="0" Grid.ColumnSpan="3" Padding="3" cal:Message.Attach="[Event TextChanged] = [Action Search($this)]">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="10"/>

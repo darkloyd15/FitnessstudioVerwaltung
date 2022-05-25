@@ -19,13 +19,13 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid Margin="0 5" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="Schedules" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSchedule}">
+        <DataGrid Margin="0 5" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="Schedules" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Mitarbeiter" Binding="{Binding EmployeeId, Mode=OneWay}" />
-                <DataGridTextColumn Header="Kunde" Binding="{Binding CustomerId, Mode=OneWay}" />
+                <DataGridTextColumn Header="Mitarbeiter" MinWidth="100" Binding="{Binding EmployeeId, Mode=OneWay}" />
+                <DataGridTextColumn Header="Kunde" MinWidth="100" Binding="{Binding CustomerId, Mode=OneWay}" />
                 <!--<DataGridTextColumn Header="Geburtstag" Binding="{Binding Birthday, Mode=OneWay}" />-->
-                <DataGridTextColumn Header="Startzeit" Binding="{Binding StartTime, Mode=OneWay}" />
-                <DataGridTextColumn Header="Endzeit" Binding="{Binding EndTime, Mode=OneWay}" />
+                <DataGridTextColumn Header="Startzeit" MinWidth="200" Binding="{Binding StartTime, Mode=OneWay}" />
+                <DataGridTextColumn Header="Endzeit" MinWidth="200" Binding="{Binding EndTime, Mode=OneWay}" />
             </DataGrid.Columns>
         </DataGrid>
         
@@ -47,6 +47,6 @@
             </ItemsControl>
         </StackPanel>-->
 
-        <Button Grid.Column="2" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"  MinHeight="25" MinWidth="100" Content="Zurück"/>
+        <Button x:Name="GoBack" Grid.Column="2" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"  MinHeight="25" MinWidth="100" Content="Zurück"/>
     </Grid>
 </UserControl>

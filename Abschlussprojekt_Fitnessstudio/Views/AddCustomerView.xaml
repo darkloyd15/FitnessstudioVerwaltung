@@ -59,23 +59,16 @@
                     
         </Grid>
 
-                <StackPanel Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="10">
-            <ItemsControl x:Name="Items">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="Remove"
-                                cal:Message.Attach="Remove($dataContext)" />
-                            <TextBlock Text="{Binding Id}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
+        <DataGrid x:Name="TrainingPlan"  Margin="10 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Maschinen" MinWidth="100" Binding="{Binding TraininMachine.Name, Mode=OneWay}" />
+                <DataGridTextColumn Header="Iterations" MinWidth="100" Binding="{Binding Iteration, Mode=OneWay}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-
-        <Button Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Hinzufügen" MinHeight="20" MinWidth="100" Margin="20 0" x:Name="Add"/>
-        <Button Grid.Column="3" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Zurück" MinHeight="20" MinWidth="100" Margin="30 0"/>
+        <Button x:Name="Add" Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Hinzufügen" MinHeight="20" MinWidth="100" Margin="20 0" />
+        <Button x:Name="AddPlan" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Trainingsplan Hinzufügen" MinHeight="20" MinWidth="100" Margin="20 0" />
+        <Button x:Name="GoBack" Grid.Column="3" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Zurück" MinHeight="20" MinWidth="100" Margin="30 0"/>
 
 
 
